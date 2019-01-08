@@ -330,15 +330,6 @@ export const init = (params = {}) => {
   group.appendChild(hoverMarker)
   group.appendChild(linkPreview)
   svg.appendChild(group)
-  svg.appendChild(Circle({
-    cx: (S/2)-0.5,
-    cy: (S/2)-0.5,
-    r: 0.06,
-    fill: 'transparent',
-    'stroke-width': 0.005,
-    stroke: `hsla(0,0%,100%,0.4)`
-  }))
-
 
   let observer
   if (window.ResizeObserver) {
