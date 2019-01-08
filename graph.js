@@ -67,7 +67,8 @@ export const init = (params = {}) => {
     r: 0.2,
     fill: 'transparent',
     'stroke-width': 0.05,
-    stroke: `hsla(0,0%,100%,0.2)`
+    stroke: `hsla(0,0%,100%,0.2)`,
+    display: 'none',
   })
 
   const grid = [ ...Array(SS).keys() ]
@@ -180,6 +181,7 @@ export const init = (params = {}) => {
     if (handle('resize') || handle('init')) {
       bounding = svg.getBoundingClientRect()
       applyPanAndScale()
+      drawSelection()
     }
 
     if (isDown(KEYS.zoomIn)) {
