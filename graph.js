@@ -45,6 +45,7 @@ export const defaultKeys = {
 export const actions = {
   addPoint: 'ADD_POINT',
   addLink: 'ADD_LINK',
+  removeLink: 'REMOVE_LINK',
 }
 
 
@@ -85,6 +86,7 @@ export const init = (params = {}) => {
   const inputsDown = new Map()
   const centerX = S/2 - 0.5
   const centerY = S/2 - 0.5
+  let links = []
   let scale = 1
   let prevScale = 1
   let mouseX = -1
@@ -150,16 +152,27 @@ export const init = (params = {}) => {
 
   const addLink = (start, end) => {
     if (start === end) return
-    graph[start.key].links.push(end.key)
-    group.appendChild(Path({
-      fill: 'none',
-      stroke: 'rgba(255,255,255,0.3)',
-      'stroke-linecap': 'round',
-      'stroke-width': 0.1,
-      d: getLink(start.x, start.y, end.x, end.y)
-    }))
+    const link = {
+      start,
+      end,
+      elem: Path({
+        fill: 'none',
+        stroke: 'rgba(255,255,255,0.3)',
+        'stroke-linecap': 'round',
+        'stroke-width': 0.1,
+        d: getLink(start.x, start.y, end.x, end.y)
+      })
+    }
+    links.push(link)
+    group.appendChild(link.elem)
 
     dispatch(actions.addLink, { start, end })
+  }
+
+  const deleteLink = link => {
+    links = links.filter(l => l !== link)
+    link.elem.remove()
+    dispatch(actions.removeLink, link)
   }
 
   const addPoint = (x, y) => {
