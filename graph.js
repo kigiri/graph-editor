@@ -341,6 +341,7 @@ export const init = (params = {}) => {
   svg.addEventListener('mouseup', svgMouseup)
   svg.addEventListener('mousedown', svgMousedown)
   svg.addEventListener('contextmenu', preventDefault)
+  window.addEventListener('scroll', windowResize)
   window.addEventListener('blur', windowBlur)
   window.addEventListener('keyup', windowKeyup)
   window.addEventListener('keydown', windowKeydown)
@@ -364,5 +365,6 @@ export const init = (params = {}) => {
     window.removeEventListener('keyup', windowKeyup)
     window.removeEventListener('keydown', windowKeydown)
     window.removeEventListener('mousemove', windowMousemove)
+    window.removeEventListener('scroll', windowResize)
   }
 }
