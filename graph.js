@@ -149,6 +149,7 @@ export const init = (params = {}) => {
   }
 
   const addLink = (start, end) => {
+    if (start === end) return
     graph[start.key].links.push(end.key)
     group.appendChild(Path({
       fill: 'none',
