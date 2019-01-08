@@ -35,7 +35,11 @@ const isNear = n => {
 
 export const defaultKeys = {
   grab: ' ',
-  zoomIn: '+'
+  zoomIn: '=',
+  zoomInPrecise: '+',
+  zoomOut: '-',
+  zoomOutPrecise: '_',
+  unselect: 'Escape',
 }
 
 export const actions = {
@@ -153,7 +157,7 @@ export const init = (params = {}) => {
       d: getLink(start.x, start.y, end.x, end.y)
     }))
 
-    dispatch('ADD_LINK', { start, end })
+    dispatch(actions.addLink, { start, end })
   }
 
   const addPoint = (x, y) => {
@@ -161,7 +165,7 @@ export const init = (params = {}) => {
     const key = x * S + y
     const point = graph[key] = { elem, x, y, key, links: [] }
     group.prepend(elem)
-    dispatch('ADD_POINT', point)
+    dispatch(actions.addPoint, point)
   }
 
   const executeUpdate = () => {
@@ -178,41 +182,41 @@ export const init = (params = {}) => {
       applyPanAndScale()
     }
 
-    if (isDown('=')) {
+    if (isDown(KEYS.zoomIn)) {
       scale = prevPowerOf2(scale * 2)
       applyPanAndScale()
     }
 
-    if (isDown('+')) {
+    if (isDown(KEYS.zoomInPrecise)) {
       scale = scale * 1.2
       applyPanAndScale()
     }
 
-    if (isDown('-')) {
+    if (isDown(KEYS.zoomOut)) {
       scale = nextPowerOf2(scale / 2)
       applyPanAndScale()
     }
 
-    if (isDown(' ')) {
-      svg.classList.add('grab')
-    }
-
-    if (isUp(' ')) {
-      svg.classList.remove('grab')
-    }
-
-    if (isDown('_')) {
+    if (isDown(KEYS.zoomOutPrecise)) {
       scale = scale * 0.8
       applyPanAndScale()
     }
 
-    if (isDown('Escape')) {
+    if (isDown(KEYS.grab)) {
+      svg.classList.add('grab')
+    }
+
+    if (isUp(KEYS.grab)) {
+      svg.classList.remove('grab')
+    }
+
+    if (isDown(KEYS.unselect)) {
       selectedPoint = undefined
       drawSelection()
     }
 
     if (isDown('leftclick')) {
-      if (isHold(' ')) {
+      if (isHold(KEYS.grab)) {
         drag = { x: mouseX, y: mouseY }
         svg.classList.add('grabbing')
       } else if (hoverPoint) {
