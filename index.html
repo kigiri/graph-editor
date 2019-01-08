@@ -86,7 +86,13 @@ const getClickName = e => {
   }
 }
 
+const defaultKeys = {
+  grab: ' ',
+  zoomIn: '+'
+}
+
 const init = (params = {}) => {
+  const KEYS = { ...defaultKeys, ...params.keys }
   const S = params.size || 21
   const SS = S * S
 
